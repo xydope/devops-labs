@@ -1,28 +1,16 @@
 # Containerized Python App
 
-## What it is
+A minimal Flask web application containerized with **Docker and Docker Compose**.
 
-A minimal Python web application used to practice Docker fundamentals and containerization.
+The project demonstrates basic containerization concepts: Dockerfiles, images, containers, port mapping, environment variables, health checks, non-root users, and Compose.
 
-The application itself is intentionally simple. The main focus of this project is understanding how an application is packaged, built, configured, and run inside a Docker container.
+## Endpoints
 
-## Architecture
-
-```text
-Python Application
-        ↓
-requirements.txt
-        ↓
-Dockerfile
-        ↓
-Docker Image
-        ↓
-Docker Container
-        ↓
-Published Port
-        ↓
-HTTP API
-```
+| Endpoint  | Description                        |
+| --------- | ---------------------------------- |
+| `/`       | Application status                 |
+| `/health` | Health check                       |
+| `/info`   | Container hostname and environment |
 
 ## Project Structure
 
@@ -32,30 +20,141 @@ containerized-python-app/
 │   └── app.py
 ├── requirements.txt
 ├── Dockerfile
+├── compose.yaml
+├── .env.example
 ├── .dockerignore
+├── .gitignore
 └── README.md
 ```
 
-## Build
+## Run with Docker Compose
 
-*TODO*
+Create environment configuration:
 
-## Run
+```bash
+cp .env.example .env
+```
 
-*TODO*
+Start the application:
 
-## Test
+```bash
+docker compose up -d
+```
 
-*TODO*
+Check status:
 
-## Environment Variables
+```bash
+docker compose ps
+```
 
-*TODO*
+Test the API:
+
+```bash
+curl http://localhost:3000/
+curl http://localhost:3000/health
+curl http://localhost:3000/info
+```
+
+Stop:
+
+```bash
+docker compose down
+```
+
+## Configuration
+
+`.env.example`:
+
+```text
+APP_ENV=development
+APP_PORT=3000
+HOST_PORT=3000
+```
+
+Compose uses these values for runtime configuration:
+
+```yaml
+ports:
+  - "${HOST_PORT}:${APP_PORT}"
+
+environment:
+  APP_ENV: ${APP_ENV}
+  APP_PORT: ${APP_PORT}
+```
+
+`HOST_PORT` is the host port. `APP_PORT` is the port used by the application inside the container.
+
+## Docker
+
+The Dockerfile:
+
+* uses a Python slim image;
+* installs dependencies from `requirements.txt`;
+* copies the application;
+* creates a non-root user;
+* runs the application as that user.
+
+The application listens on:
+
+```text
+0.0.0.0:3000
+```
+
+Docker publishes the port:
+
+```text
+localhost:3000 → container:3000
+```
+
+`EXPOSE` documents the container port; it does not publish it.
+
+## Health Check
+
+Compose checks:
+
+```text
+/health
+```
+
+Container states:
+
+```text
+Up       → process is running
+healthy  → health check passes
+unhealthy → health check fails
+```
+
+The restart policy is configured separately with:
+
+```yaml
+restart: unless-stopped
+```
 
 ## Troubleshooting
 
-*TODO*
+Useful commands:
+
+```bash
+docker compose ps
+docker compose logs
+docker compose config
+docker ps
+docker logs containerized-python-app
+docker exec -it containerized-python-app sh
+docker inspect containerized-python-app
+```
+
+Common issues include incorrect port mapping, wrong environment variables, failed health checks, and binding the application to `127.0.0.1` instead of `0.0.0.0`.
 
 ## What I Learned
 
-*TODO*
+* Dockerfile build process
+* Images vs containers
+* Docker layers and build cache
+* Port publishing
+* Environment variables
+* Health checks
+* Non-root containers
+* Docker Compose
+* `.env` configuration
+* Basic container troubleshooting
