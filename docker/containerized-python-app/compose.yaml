@@ -1,0 +1,27 @@
+services:
+  app:
+    build: .
+    image: containerized-python-app
+    container_name: containerized-python-app
+
+    restart: unless-stopped
+
+    ports:
+      - "${HOST_PORT}:${APP_PORT}"
+
+    environment:
+      APP_ENV: ${APP_ENV}
+      APP_PORT: ${APP_PORT}
+
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://localhost:3000/health')",
+        ]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
