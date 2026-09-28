@@ -1,0 +1,10 @@
+# Backup archives
+*.tar
+*.tar.gz
+*.tgz
+
+# Logs
+*.log
+
+# Local test data
+backup-test/
