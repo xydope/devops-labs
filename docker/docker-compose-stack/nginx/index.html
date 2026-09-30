@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Docker Compose Stack</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: Arial, sans-serif;
+      }
+
+      body {
+        display: grid;
+        min-height: 100vh;
+        margin: 0;
+        place-items: center;
+        background: #111827;
+        color: #f9fafb;
+      }
+
+      main {
+        width: min(680px, calc(100% - 48px));
+        padding: 40px;
+        border: 1px solid #374151;
+        border-radius: 16px;
+        background: #1f2937;
+        box-shadow: 0 18px 50px rgb(0 0 0 / 25%);
+      }
+
+      h1 {
+        margin-top: 0;
+      }
+
+      code {
+        color: #86efac;
+      }
+
+      a {
+        color: #93c5fd;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Docker Compose Stack</h1>
+      <p>Nginx is serving this static page.</p>
+      <p>
+        API requests are routed through Nginx to the Python backend:
+        <a href="/api/info"><code>/api/info</code></a>
+      </p>
+      <p>
+        Backend health check:
+        <a href="/api/health"><code>/api/health</code></a>
+      </p>
+    </main>
+  </body>
+</html>
