@@ -4,3 +4,9 @@ README.md
 *.md
 .env
 .env.*
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
