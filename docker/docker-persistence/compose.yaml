@@ -1,0 +1,12 @@
+services:
+  app:
+    build: .
+    image: docker-persistence-app
+    container_name: docker-persistence-app
+    volumes:
+      - volume:/volume
+      - ./bind:/bind
+    ports:
+      - "8080:8080"
+volumes:
+  volume:

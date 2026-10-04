@@ -11,6 +11,7 @@ Thumbs.db
 .env
 .env.*
 !.env.example
+bind/
 
 # Python cache
 __pycache__/
